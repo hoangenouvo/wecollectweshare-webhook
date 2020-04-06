@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/joho/godotenv"
+	"log"
 	"net/http"
 	"os"
 
@@ -30,6 +31,7 @@ func webhook(e echo.Context) error {
 	dr := dialogflow.Request{}
 	err := e.Bind(&dr)
 	if err != nil {
+		log.Println("got err:", err)
 		return err
 	}
 	action := dr.QueryResult.Action

@@ -47,11 +47,15 @@ func welcomeHandler(e echo.Context, source string) error {
 }
 
 func addLocationPermissionRequest(e echo.Context, dr dialogflow.Request) error {
-	hasParam, err := DoesExistParams(dr, "address")
+	address, err := DoesExistParams(dr, "address")
 	if err != nil {
 		return ErrResponse(e)
 	}
-	if !hasParam {
+	any, err := DoesExistParams(dr, "any")
+	if err != nil {
+		return ErrResponse(e)
+	}
+	if address == any {
 		if dr.OriginalDetectIntentRequest.Source == "facebook" {
 			rs := dialogflow.Fulfillment{
 				FulfillmentText: "PLACEHOLDER_FOR_PERMISSION",
@@ -90,11 +94,11 @@ func addLocationPermissionRequest(e echo.Context, dr dialogflow.Request) error {
 
 func permissionHander(e echo.Context, dr dialogflow.Request) error {
 
-	hasParam, err := DoesExistParams(dr, "address")
+	address, err := DoesExistParams(dr, "address")
 	if err != nil {
 		return ErrResponse(e)
 	}
-	if !hasParam {
+	if address {
 		trans := Transactions{}
 		var dfContext map[string]interface{}
 		err := dr.GetContext("information", &dfContext)
@@ -138,19 +142,15 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 				return ErrResponse(e)
 			}
 			trans = Transactions{
-				Description: dfContext["description"].(string),
-				GiverName:   dfContext["person"].(map[string]interface{})["name"].(string),
-				PhoneNumber: dfContext["phone-number"].(string),
-				Address:     address,
-				Long:        userLocation.Coordinates.Longitude,
-				Lat:         userLocation.Coordinates.Latitude,
-				CreatedDate: time.Now().Unix(),
-				Status:      "pending",
-				TransactionTime: func() int64 {
-					origin := dfContext["transaction-time.original"].(string)
-					t, _ := time.Parse(time.RFC3339, origin)
-					return t.Unix()
-				}(),
+				Description:     dfContext["any"].(string),
+				GiverName:       dfContext["person"].(map[string]interface{})["name"].(string),
+				PhoneNumber:     dfContext["phone-number"].(string),
+				Address:         address,
+				Long:            userLocation.Coordinates.Longitude,
+				Lat:             userLocation.Coordinates.Latitude,
+				CreatedDate:     time.Now().Unix(),
+				Status:          "pending",
+				TransactionTime: time.Now().Unix(),
 			}
 		}
 		if err := InsertDataToFirebase(e, trans); err != nil {
