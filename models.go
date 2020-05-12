@@ -1,5 +1,7 @@
 package main
 
+import "time"
+
 type Transactions struct {
 	Description     string   `json:"description" firestore:"description"`
 	Email           string   `json:"email" firestore:"email"`
@@ -13,8 +15,16 @@ type Transactions struct {
 	ImageURL        []string `json:"imageURL" firestore:"imageURL"`
 	Status          string   `json:"status" firestore:"status"`
 	TransactionTime int64    `json:"transactionTime" firestore:"transactionTime"`
+	EventName       string   `json:"eventName" firestore:"eventName"`
 }
 
 type Person struct {
 	Name string `json:"name"`
+}
+
+type Event struct {
+	Address string    `json:"address"`
+	Name    string    `json:"name"`
+	Status  bool      `json:"status"`
+	Time    time.Time `json:"time"`
 }

@@ -12,7 +12,14 @@ import (
 	"wcws/dialogflow"
 )
 
+var globalSession map[string]string
+
+func init() {
+	globalSession = make(map[string]string)
+}
+
 func main() {
+
 	_ = os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "cred.json")
 	_ = godotenv.Load()
 	e := echo.New()

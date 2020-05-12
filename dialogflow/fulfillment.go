@@ -77,7 +77,6 @@ func (m *Message) MarshalJSON() ([]byte, error) {
 		buffer.WriteString(fmt.Sprintf(`"%s": %s`, m.RichMessage.GetKey(), string(b)))
 	}
 	buffer.WriteString("}")
-	fmt.Println(buffer.String())
 	return buffer.Bytes(), nil
 }
 

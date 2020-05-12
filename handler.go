@@ -1,23 +1,30 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
+	firebase "firebase.google.com/go"
 	"github.com/labstack/echo/v4"
+	"google.golang.org/api/iterator"
 
 	"wcws/dialogflow"
 )
 
 func welcomeHandler(e echo.Context, source string) error {
 	rs := dialogflow.Fulfillment{}
-	answer := "Great! Welcome to We Collect We Share application! Do you have something unused?"
+	events, _ := GetActiveEvent()
+	answer1 := "Great! Welcome to We Collect We Share application! Do you have something unused?"
+	answer2 := fmt.Sprintf("We have some events for you: ")
 	switch source {
 	case "facebook":
 		rs = dialogflow.Fulfillment{
 			FulfillmentMessages: []dialogflow.Message{
-				dialogflow.ForFacebook(dialogflow.TextWrapper{Text: []string{answer}}),
+				dialogflow.ForFacebook(dialogflow.TextWrapper{Text: []string{answer1}}),
 				dialogflow.ForFacebook(dialogflow.Card{
 					Title:    "We Collect We Share",
 					Subtitle: "Here we collect things from those who want to share to give those in need",
@@ -31,7 +38,7 @@ func welcomeHandler(e echo.Context, source string) error {
 	default:
 		rs = dialogflow.Fulfillment{
 			FulfillmentMessages: []dialogflow.Message{
-				dialogflow.ForGoogle(dialogflow.SingleSimpleResponse(answer, answer)),
+				dialogflow.ForGoogle(dialogflow.SingleSimpleResponse(answer1, answer1)),
 				dialogflow.ForGoogle(dialogflow.BasicCard{
 					Title:         "We Collect We Share",
 					FormattedText: "We Collect We Share",
@@ -39,6 +46,23 @@ func welcomeHandler(e echo.Context, source string) error {
 						ImageURI:          "https://image.freepik.com/free-vector/volunteers-with-charity-icons-illustration_53876-43180.jpg?fbclid=IwAR2bbsMINLoup2HAG8heP1Kq8KF9oimCDQvcrOXqb14d1VlP8UHFDkEMyNA",
 						AccessibilityText: "We Collect We Share",
 					},
+				}),
+				dialogflow.ForGoogle(dialogflow.SingleSimpleResponse(answer2, answer2)),
+				dialogflow.ForGoogle(dialogflow.ListSelect{
+					Title: "List Event",
+					Items: func() (rs []dialogflow.Item) {
+						for _, v := range events {
+							rs = append(rs, dialogflow.Item{
+								Info: dialogflow.SelectItemInfo{
+									Key:      v.Name,
+									Synonyms: nil,
+								},
+								Title:       v.Name,
+								Description: fmt.Sprintf("%s - %s", v.Address, v.Time),
+							})
+						}
+						return rs
+					}(),
 				}),
 			},
 		}
@@ -134,6 +158,7 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 					t, _ := time.Parse(time.RFC3339, origin)
 					return t.Unix()
 				}(),
+				EventName: dr.QueryResult.QueryText,
 			}
 		} else {
 			userLocation := dr.OriginalDetectIntentRequest.Payload.Device.LocationInfo
@@ -151,6 +176,7 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 				CreatedDate:     time.Now().Unix(),
 				Status:          "pending",
 				TransactionTime: time.Now().Unix(),
+				EventName:       dr.QueryResult.QueryText,
 			}
 		}
 		if err := InsertDataToFirebase(e, trans); err != nil {
@@ -180,4 +206,38 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 		return e.JSON(http.StatusOK, rs)
 	}
 	return ErrResponse(e)
+}
+
+func GetActiveEvent() ([]Event, error) {
+	var events []Event
+	ctx := context.Background()
+	app, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		return nil, err
+	}
+	collections := client.Collection("events").Where("status", "==", true).Documents(ctx)
+	for {
+		var event Event
+		doc, err := collections.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+		byteData, err := json.Marshal(doc.Data())
+		if err != nil {
+			return nil, err
+		}
+		err = json.Unmarshal(byteData, &event)
+		if err != nil {
+			return nil, err
+		}
+		events = append(events, event)
+	}
+	return events, err
 }
