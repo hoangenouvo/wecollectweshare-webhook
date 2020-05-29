@@ -14,7 +14,7 @@ type Transactions struct {
 	CreatedDate     int64    `json:"created_date" firestore:"createdDate"`
 	ImageURL        []string `json:"imageURL" firestore:"imageURL"`
 	Status          string   `json:"status" firestore:"status"`
-	TransactionTime int64    `json:"transactionTime" firestore:"transactionTime"`
+	TransactionTime string   `json:"transactionTime" firestore:"transactionTime"`
 	EventName       string   `json:"eventName" firestore:"eventName"`
 }
 

@@ -145,20 +145,16 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 			}
 			address, err := ExtractAddressFromCoordinator(coordinates)
 			trans = Transactions{
-				Description: dfContext["description"].(string),
-				GiverName:   dfContext["person"].(map[string]interface{})["name"].(string),
-				PhoneNumber: dfContext["phone-number"].(string),
-				Address:     address,
-				Long:        coordinates.Longitude,
-				Lat:         coordinates.Latitude,
-				CreatedDate: time.Now().Unix(),
-				Status:      "pending",
-				TransactionTime: func() int64 {
-					origin := dfContext["transaction-time.original"].(string)
-					t, _ := time.Parse(time.RFC3339, origin)
-					return t.Unix()
-				}(),
-				EventName: dr.QueryResult.QueryText,
+				Description:     dfContext["description"].(string),
+				GiverName:       dfContext["person"].(map[string]interface{})["name"].(string),
+				PhoneNumber:     dfContext["phone-number"].(string),
+				Address:         address,
+				Long:            coordinates.Longitude,
+				Lat:             coordinates.Latitude,
+				CreatedDate:     time.Now().Unix(),
+				Status:          "pending",
+				TransactionTime: dfContext["transaction-time.original"].(string),
+				EventName:       dr.QueryResult.QueryText,
 			}
 		} else {
 			userLocation := dr.OriginalDetectIntentRequest.Payload.Device.LocationInfo
@@ -175,7 +171,7 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 				Lat:             userLocation.Coordinates.Latitude,
 				CreatedDate:     time.Now().Unix(),
 				Status:          "pending",
-				TransactionTime: time.Now().Unix(),
+				TransactionTime: dfContext["transaction-time.original"].(string),
 				EventName:       dr.QueryResult.QueryText,
 			}
 		}

@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed06cea2-6187-4192-93c8-f67361746c8a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dialogflow/fulfillment.go" beforeDir="false" afterPath="$PROJECT_DIR$/dialogflow/fulfillment.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +65,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-- fix bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- fix bugs" />
+    <MESSAGE value="-- add event" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- add event" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -90,9 +86,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="736" y="313" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1200/1920.0.1920.1080@0.0.1920.1200" timestamp="1589283037920" />
-    <state x="2491" y="154" key="CommitChangelistDialog2" timestamp="1586195020884">
-      <screen x="1920" y="23" width="1920" height="1057" />
+    <state x="571" y="169" key="CommitChangelistDialog2" timestamp="1589300174073">
+      <screen x="0" y="23" width="1920" height="1177" />
     </state>
+    <state x="571" y="169" key="CommitChangelistDialog2/0.23.1920.1177/1920.23.1920.1057@0.23.1920.1177" timestamp="1589300174073" />
     <state x="2491" y="154" key="CommitChangelistDialog2/0.23.1920.1177/1920.23.1920.1057@1920.23.1920.1057" timestamp="1586195020884" />
     <state width="1878" height="869" key="GridCell.Tab.0.bottom" timestamp="1589297925596">
       <screen x="0" y="23" width="1920" height="1177" />
@@ -142,9 +139,10 @@
     <state width="1878" height="462" key="GridCell.Tab.1.right/0.0.1920.1200/1920.0.1920.1080@0.0.1920.1200" timestamp="1589284391331" />
     <state width="1878" height="424" key="GridCell.Tab.1.right/0.0.1920.1200/1920.23.1920.1057@0.0.1920.1200" timestamp="1589266059726" />
     <state width="1878" height="869" key="GridCell.Tab.1.right/0.23.1920.1177@0.23.1920.1177" timestamp="1589297925598" />
-    <state x="2480" y="291" key="Vcs.Push.Dialog.v2" timestamp="1586195023707">
-      <screen x="1920" y="23" width="1920" height="1057" />
+    <state x="560" y="321" key="Vcs.Push.Dialog.v2" timestamp="1589300176110">
+      <screen x="0" y="23" width="1920" height="1177" />
     </state>
+    <state x="560" y="321" key="Vcs.Push.Dialog.v2/0.23.1920.1177/1920.23.1920.1057@0.23.1920.1177" timestamp="1589300176110" />
     <state x="2480" y="291" key="Vcs.Push.Dialog.v2/0.23.1920.1177/1920.23.1920.1057@1920.23.1920.1057" timestamp="1586195023707" />
     <state width="960" height="600" key="XDebugger.FullValuePopup" timestamp="1589284608129">
       <screen x="0" y="0" width="1920" height="1200" />
@@ -154,16 +152,5 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="501" y="336" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1200/1920.0.1920.1080@0.0.1920.1200" timestamp="1589264215981" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/handler.go</url>
-          <line>120</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
