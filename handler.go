@@ -171,7 +171,7 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 				Lat:             userLocation.Coordinates.Latitude,
 				CreatedDate:     time.Now().Unix(),
 				Status:          "pending",
-				TransactionTime: dfContext["transaction-time.original"].(string),
+				TransactionTime: dfContext["transaction-time"].(map[string]interface{})["transaction-time"].(string),
 				EventName:       dr.QueryResult.QueryText,
 			}
 		}
