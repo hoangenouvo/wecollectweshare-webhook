@@ -23,8 +23,9 @@ type Person struct {
 }
 
 type Event struct {
-	Address string    `json:"address"`
-	Name    string    `json:"name"`
-	Status  bool      `json:"status"`
-	Time    time.Time `json:"time"`
+	Address     string    `json:"address"`
+	Name        string    `json:"name"`
+	Status      bool      `json:"status"`
+	Time        time.Time `json:"time"`
+	Description string    `json:"description"`
 }
