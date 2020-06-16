@@ -154,7 +154,7 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 				CreatedDate:     time.Now().Unix(),
 				Status:          "pending",
 				TransactionTime: dfContext["transaction-time.original"].(string),
-				EventName:       dr.QueryResult.QueryText,
+				EventId:         0,
 			}
 		} else {
 			userLocation := dr.OriginalDetectIntentRequest.Payload.Device.LocationInfo
@@ -172,7 +172,7 @@ func permissionHander(e echo.Context, dr dialogflow.Request) error {
 				CreatedDate:     time.Now().Unix(),
 				Status:          "pending",
 				TransactionTime: dfContext["transaction-time"].(map[string]interface{})["transaction-time"].(string),
-				EventName:       dfContext["event-number"].(map[string]interface{})["event-number"].(string),
+				EventId:         dfContext["event-number"].(float64),
 			}
 		}
 		if err := InsertDataToFirebase(e, trans); err != nil {

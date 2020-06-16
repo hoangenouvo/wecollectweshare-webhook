@@ -15,7 +15,7 @@ type Transactions struct {
 	ImageURL        []string `json:"imageURL" firestore:"imageURL"`
 	Status          string   `json:"status" firestore:"status"`
 	TransactionTime string   `json:"transactionTime" firestore:"transactionTime"`
-	EventName       string   `json:"eventName" firestore:"eventName"`
+	EventId         float64  `json:"eventId" firestore:"eventId"`
 }
 
 type Person struct {
